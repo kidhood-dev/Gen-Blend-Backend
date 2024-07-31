@@ -36,7 +36,7 @@ class CouponRedeem(BaseModel):
 
     user = models.ForeignKey(User, related_name="usercoupons", on_delete=models.CASCADE)
     coupon = models.ForeignKey(Coupon, related_name="coupons", on_delete=models.CASCADE)
-    redeem_date = models.DateField(default=False)
+    redeem_date = models.DateTimeField(auto_now_add=True)
 
     def __str__(self) -> str:
         """
