@@ -1,5 +1,6 @@
 from django.db import models
 from core.models import BaseModel
+from Users.models import UserProfile
 
 class QuestionsType(BaseModel):
     """
@@ -39,7 +40,7 @@ class Questions(BaseModel):
         """
         return self.question
 
-class FeedBack(BaseModel):
+class QuestionAnswer(BaseModel):
     """
     Represents a feedback response to a specific question.
     
@@ -47,7 +48,8 @@ class FeedBack(BaseModel):
         question (ForeignKey): The question being answered.
         answer (str): The text of the feedback answer.
     """
-    question = models.ForeignKey(Questions, on_delete=models.CASCADE)
+    user = models.ForeignKey(UserProfile, related_name='questionAnswerUser', on_delete=models.CASCADE)
+    question = models.ForeignKey(Questions,related_name='questionAnswer', on_delete=models.CASCADE)
     answer = models.CharField(max_length=10000)
 
     def __str__(self) -> str:
