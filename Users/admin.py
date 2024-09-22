@@ -9,7 +9,7 @@ class UsersAdmin(admin.ModelAdmin):
     Attributes:
         list_display (list): Fields to display in the admin list view.
     """
-    list_display = ['id', 'email', 'mobile_number', 'is_subscribed']
+    list_display = ['id', 'email', 'phone_number', 'is_subscribed']
 
 @admin.register(UserProfile)
 class UserProfileAdmin(admin.ModelAdmin):

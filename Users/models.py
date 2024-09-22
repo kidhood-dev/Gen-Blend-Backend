@@ -2,6 +2,7 @@ from django.db import models
 from core.models import BaseModel
 from django.contrib.auth.models import AbstractBaseUser, BaseUserManager
 from Levels.models import Level
+from phonenumber_field.modelfields import PhoneNumberField
 
 class CustomUserManager(BaseUserManager):
     """
@@ -11,13 +12,13 @@ class CustomUserManager(BaseUserManager):
         create_user: Creates and saves a User with the given email and mobile number.
         create_superuser: Creates and saves a superuser with the given email and mobile number.
     """
-    def create_user(self, email, mobile_number, password=None):
+    def create_user(self, email, phone_number, password=None):
         """
         Creates and saves a User with the given email, mobile number, and password.
         
         Args:
             email (str): The email address of the user.
-            mobile_number (str): The mobile number of the user.
+            phone_number (str): The mobile number of the user.
             password (str, optional): The password for the user. Defaults to None.
         
         Returns:
@@ -28,20 +29,20 @@ class CustomUserManager(BaseUserManager):
 
         user = self.model(
             email=self.normalize_email(email),
-            mobile_number=mobile_number,
+            phone_number=phone_number,
         )
         user.is_staff = False
         user.set_password(password)
         user.save(using=self._db)
         return user
 
-    def create_superuser(self, email, mobile_number, password=None):
+    def create_superuser(self, email, phone_number, password=None):
         """
         Creates and saves a superuser with the given email, mobile number, and password.
         
         Args:
             email (str): The email address of the superuser.
-            mobile_number (str): The mobile number of the superuser.
+            phone_number (str): The mobile number of the superuser.
             password (str, optional): The password for the superuser. Defaults to None.
         
         Returns:
@@ -49,7 +50,7 @@ class CustomUserManager(BaseUserManager):
         """
         user = self.create_user(
             email,
-            mobile_number=mobile_number,
+            phone_number=phone_number,
             password=password,
         )
         user.is_admin = True
@@ -63,21 +64,21 @@ class User(AbstractBaseUser):
     
     Attributes:
         email (EmailField): User's email address.
-        mobile_number (CharField): User's mobile number.
+        phone_number (CharField): User's mobile number.
         is_subscribed (BooleanField): Indicates if the user is subscribed to any service.
         is_active (BooleanField): Indicates if the user account is active.
         is_admin (BooleanField): Indicates if the user has admin privileges.
         is_staff (BooleanField): Indicates if the user can access the admin site.
     """
     email = models.EmailField(max_length=50, unique=True, blank=True, null=True)
-    mobile_number = models.CharField(max_length=10)
+    phone_number = PhoneNumberField(blank=True, null=True)
     is_subscribed = models.BooleanField(default=False)
     is_active = models.BooleanField(default=True)
     is_admin = models.BooleanField(default=False)
     is_staff = models.BooleanField(default=False)
 
     USERNAME_FIELD = 'email'
-    REQUIRED_FIELDS = ['mobile_number']
+    REQUIRED_FIELDS = ['phone_number']
 
     objects = CustomUserManager()
 
@@ -88,7 +89,7 @@ class User(AbstractBaseUser):
         Returns:
             str: The user's mobile number.
         """
-        return self.mobile_number
+        return self.phone_number
     
     def has_perm(self, perm, obj=None):
         "Does the user have a specific permission?"
@@ -114,8 +115,8 @@ class UserProfile(BaseModel):
         gender (CharField): User's gender with choices restricted to GENDER_CHOICES.
         current_level (ForeignKey): User's current level.
     """
-    MALE = "male"
-    FEMALE = "female"
+    MALE = "Male"
+    FEMALE = "Female"
     
     GENDER_CHOICES = (
         (MALE, "Male"),
