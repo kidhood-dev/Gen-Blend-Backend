@@ -74,6 +74,7 @@ class User(AbstractBaseUser):
     is_subscribed = models.BooleanField(default=False)
     is_active = models.BooleanField(default=True)
     is_admin = models.BooleanField(default=False)
+    is_staff = models.BooleanField(default=False)
 
     USERNAME_FIELD = 'email'
     REQUIRED_FIELDS = ['mobile_number']
@@ -99,13 +100,6 @@ class User(AbstractBaseUser):
         # Simplest possible answer: Yes, always
         return True
 
-    @property
-    def is_staff(self):
-        "Is the user a member of staff?"
-        # Simplest possible answer: All admins are staff
-        return self.is_admin
-    
-
 class UserProfile(BaseModel):
     """
     A model that stores additional details about a user.
@@ -120,8 +114,8 @@ class UserProfile(BaseModel):
         gender (CharField): User's gender with choices restricted to GENDER_CHOICES.
         current_level (ForeignKey): User's current level.
     """
-    MALE = "male"
-    FEMALE = "female"
+    MALE = "Male"
+    FEMALE = "Female"
     
     GENDER_CHOICES = (
         (MALE, "Male"),
