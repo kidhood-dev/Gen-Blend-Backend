@@ -8,7 +8,7 @@ class QuestionsTypeAdmin(admin.ModelAdmin):
     
     Displays the ID and question type in the list view.
     """
-    list_display = ['id', 'questiontype']
+    list_display = ['id', 'questions_type']
 
 
 @admin.register(Questions)
@@ -18,7 +18,7 @@ class QuestionsAdmin(admin.ModelAdmin):
     
     Displays the ID, question type, and question text in the list view.
     """
-    list_display = ['id', 'questionstype', 'question']
+    list_display = ['id', 'questions_type', 'questions']
 
 
 @admin.register(QuestionAnswer)
@@ -28,4 +28,4 @@ class QuestionAnswerAdmin(admin.ModelAdmin):
     
     Displays the ID, question, and answer text in the list view.
     """
-    list_display = ['id','user', 'question', 'answer']
+    list_display = ['id','user', 'question_type', 'question', 'answer']

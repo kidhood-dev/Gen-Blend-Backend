@@ -114,8 +114,8 @@ class UserProfile(BaseModel):
         gender (CharField): User's gender with choices restricted to GENDER_CHOICES.
         current_level (ForeignKey): User's current level.
     """
-    MALE = "male"
-    FEMALE = "female"
+    MALE = "Male"
+    FEMALE = "Female"
     
     GENDER_CHOICES = (
         (MALE, "Male"),
