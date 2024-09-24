@@ -1,0 +1,7 @@
+# python virtual enviroment
+venv
+
+# keys of project 
+.env
+
+__pycache__/
